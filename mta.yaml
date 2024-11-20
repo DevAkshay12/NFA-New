@@ -1,0 +1,142 @@
+_schema-version: 3.3.0
+ID: NFA_Form
+description: A simple CAP project.
+version: 1.0.0
+modules:
+- name: NFA_Form-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: uaa_NFA_Form
+  - name: cross-container-service-1
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+    readiness-health-check-http-endpoint: /health
+    readiness-health-check-type: http
+  build-parameters:
+    builder: npm
+- name: NFA_Form-db-deployer
+  type: hdb
+  path: gen/db
+  requires:
+  - name: cross-container-service-1
+    group: SERVICE_REPLACEMENTS
+    properties:
+      key: SharedDevKey
+      service: main_db2-db
+  parameters:
+    buildpack: nodejs_buildpack
+- name: NFA_Form-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: NFA_Form-destination-service
+    parameters:
+      content-target: true
+  - name: NFA_Form_html_repo_host
+    parameters:
+      service-key:
+        name: NFA_Form_html_repo_host-key
+  - name: uaa_NFA_Form
+    parameters:
+      service-key:
+        name: uaa_NFA_Form-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: nfaformapprouter_NFA_Form_html_repo_host
+          ServiceInstanceName: NFA_Form-html5-app-host-service
+          ServiceKeyName: NFA_Form_html_repo_host-key
+          sap.cloud.service: nfaformapprouter
+        - Authentication: OAuth2UserTokenExchange
+          Name: nfaformapprouter_uaa_NFA_Form
+          ServiceInstanceName: NFA_Form-xsuaa-service
+          ServiceKeyName: uaa_NFA_Form-key
+          sap.cloud.service: nfaformapprouter
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+- name: NFA_Form-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: NFA_Form_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - nfaform.zip
+      name: nfaform
+      target-path: resources/
+- name: nfaform
+  type: html5
+  path: app/nfa_form_
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: NFA_Form-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          - Authentication: NoAuthentication
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true
+            Name: NFA_Form-srv-api
+            ProxyType: Internet
+            Type: HTTP
+            URL: ~{srv-api/srv-url}
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: NFA_Form-destination-service
+    service-plan: lite
+  requires:
+  - name: srv-api
+- name: NFA_Form_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: NFA_Form-html5-app-host-service
+    service-plan: app-host
+- name: uaa_NFA_Form
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: NFA_Form-xsuaa-service
+    service-plan: application
+- name: cross-container-service-1
+  type: org.cloudfoundry.existing-service
+  parameters:
+    service-name: main_db2-db
+  properties:
+    the-service-name: ${service-name}
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npm ci
+    - npx cds build --production
