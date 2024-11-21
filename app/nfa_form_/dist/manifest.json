@@ -58,7 +58,7 @@
     "sap.ui5": {
         "flexEnabled": true,
         "dependencies": {
-            "minUI5Version": "1.130.0",
+            "minUI5Version": "1.126.0",
             "libs": {
                 "sap.m": {},
                 "sap.ui.core": {},
@@ -105,6 +105,11 @@
                     "pattern": "tab1({key}):?query:",
                     "name": "tab1ObjectPage",
                     "target": "tab1ObjectPage"
+                },
+                {
+                    "name": "tab1_tab1tovendor_dataObjectPage",
+                    "pattern": "tab1({key})/tab1tovendor_data({tab1tovendor_dataKey}):?query:",
+                    "target": "tab1_tab1tovendor_dataObjectPage"
                 }
             ],
             "targets": {
@@ -140,7 +145,47 @@
                     "options": {
                         "settings": {
                             "editableHeaderContent": false,
-                            "contextPath": "/tab1"
+                            "contextPath": "/tab1",
+                            "content": {
+                                "body": {
+                                    "sections": {
+                                        "Attachments": {
+                                            "template": "nfaform.ext.fragment.Attachments",
+                                            "position": {
+                                                "placement": "After",
+                                                "anchor": "VendorResponseDetails"
+                                            },
+                                            "title": "Attachments"
+                                        },
+                                        "Workflow": {
+                                            "template": "nfaform.ext.fragment.Workflow",
+                                            "position": {
+                                                "placement": "After",
+                                                "anchor": "Justification"
+                                            },
+                                            "title": "Workflow History"
+                                        }
+                                    }
+                                }
+                            },
+                            "navigation": {
+                                "tab1tovendor_data": {
+                                    "detail": {
+                                        "route": "tab1_tab1tovendor_dataObjectPage"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tab1_tab1tovendor_dataObjectPage": {
+                    "type": "Component",
+                    "id": "tab1_tab1tovendor_dataObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "navigation": {},
+                            "contextPath": "/tab1/tab1tovendor_data"
                         }
                     }
                 }
