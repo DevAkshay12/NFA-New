@@ -15,7 +15,7 @@ xmlns:mvc="sap.ui.core.mvc"
 					afterItemAdded="handler.onAfterItemAdded"
 					uploadCompleted="handler.onUploadCompleted"
 					items="{
-								path: '/attachments',
+								path: '/PAN_attachments_APR',
 								parameters: {
 									$orderby: 'createdAt desc'
 								},
@@ -38,7 +38,6 @@ xmlns:mvc="sap.ui.core.mvc"
 							removePressed="handler.onRemovePressed"
 							enabledRemove="true"
 							selected="false"
-							visibleEdit="false"
 							visibleRemove="true"
 						>
 							<upload:attributes>
