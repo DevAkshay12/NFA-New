@@ -91,7 +91,11 @@
       }
     },
     "resources": {
-      "css": []
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
     },
     "routing": {
       "config": {},
@@ -199,6 +203,15 @@
               "navigation": {},
               "contextPath": "/tab1/tab1tovendor_data"
             }
+          }
+        }
+      }
+    },
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {
+          "sap.fe.templates.ObjectPage.ObjectPageController#nfaform::tab1ObjectPage": {
+            "controllerName": "nfaform.ext.controller.Objectpage"
           }
         }
       }
