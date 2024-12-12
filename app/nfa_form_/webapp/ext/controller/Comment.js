@@ -7,10 +7,24 @@ sap.ui.define([
     "sap/suite/ui/commons/TimelineItem"
 ], function(MessageToast, Timeline, Dialog, Text, Button, TimelineItem) {
     'use strict';
-    var baseuri
+    var baseuri;
+    var panNumber;
 
     return {
         comment: function(oEvent) {
+                        var url = location.href;
+                    // Regular expression to match the PAN_Number value
+                        const regex = /PAN_Number='([^']+)'/;
+
+                        // Execute the regex on the URL
+                        const match = url.match(regex);
+
+                        if (match) {
+                            panNumber = match[1]; // Extracted PAN Number
+                            console.log(panNumber); // Output: Doc1007339210
+                        } else {
+                            console.log("PAN Number not found");
+                        }
             baseuri = this._view.getParent().getAppComponent().getManifestObject()._oBaseUri._string;
             debugger
             // Define the settings for the AJAX request
@@ -36,14 +50,15 @@ sap.ui.define([
             .then((results) => {
                 // Now that the request is done, we can proceed
                 var data = results.value;  // Extract the data from the response
+                var filteredData = data.filter(entry => entry.PAN_Number.trim() === panNumber);
                 var entries = [];  // Array to hold the mapped comment entries
 
                 // Map the data into the desired structure
                 for (var a = 0; a < data.length; a++) {
                     var entry = {
-                        createdAt: data[a].createdAt,  // Map createdAt from data[a]
-                        comment: data[a].Comments,      // Map comment from data[a]
-                        createdBy: data[a].createdBy   // Map createdBy from data[a]
+                        createdAt: filteredData[a].createdAt,  // Map createdAt from data[a]
+                        comment: filteredData[a].Comments,      // Map comment from data[a]
+                        createdBy: filteredData[a].createdBy   // Map createdBy from data[a]
                     };
                     entries.push(entry);  // Push the entry into the entries array
                 }
