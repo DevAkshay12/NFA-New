@@ -168,6 +168,22 @@
                         "anchor": "Justification"
                       },
                       "title": "Workflow History"
+                    },
+                    "Justification": {
+                      "template": "nfaform.ext.fragment.Justification",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "Attachments"
+                      },
+                      "title": "Justification",
+                      "actions": {
+                        "CommentHistory": {
+                          "press": "nfaform.ext.controller.Comment.comment",
+                          "visible": true,
+                          "enabled": true,
+                          "text": "Comment History"
+                        }
+                      }
                     }
                   }
                 },

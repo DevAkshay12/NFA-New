@@ -243,12 +243,6 @@ annotate service.tab1 with @(
             ID : 'VendorResponseDetails',
             Target : 'tab1tovendor_data/@UI.LineItem#VendorResponseDetails',
         },
-        {
-            $Type : 'UI.ReferenceFacet',
-            Label : 'Justification',
-            ID : 'Justification',
-            Target : '@UI.FieldGroup#Justification',
-        },
     ],
     UI.LineItem : [
         {

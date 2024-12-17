@@ -2,7 +2,7 @@ const cds = require('@sap/cds');
 
 module.exports = cds.service.impl(async function () {
     // Access the entities defined in your CDS model
-    const { PAN_attachments_APR,PAN_WORKFLOW_HISTORY_APR,tab1 } = this.entities;
+    const { PAN_attachments_APR,PAN_WORKFLOW_HISTORY_APR,tab1,PAN_Comments_APR } = this.entities;
 
     // Before a CREATE operation on PAN_attachments_APR
     this.before('CREATE', 'PAN_attachments_APR', async req => {
@@ -80,4 +80,32 @@ module.exports = cds.service.impl(async function () {
       }
 
     })
+
+    this.on('comment', async (req) => {
+      debugger;
+      var data = JSON.parse(req.data.data);
+      var query = await SELECT.from(PAN_Comments_APR).where`PAN_Number=${data.NFA_Number}`;
+      if(data.type == "insert")
+      {
+        if(query.length > 0)
+        {
+          const wf_up = await UPDATE(PAN_Comments_APR)
+          .where({PAN_Number: data.NFA_Number })
+          .with({ Comments: data.comment });
+          return "updated"
+        }
+        else {
+      var query = await INSERT.into(PAN_Comments_APR).entries([{
+        PAN_Number : data.NFA_Number,
+        user : data.comment,
+        Comments : data.comment,
+        status : data.status
+      }])
+      return "inserted";
+    }
+    }
+    else {
+      return JSON.stringify(query);
+    }
+    });
 });

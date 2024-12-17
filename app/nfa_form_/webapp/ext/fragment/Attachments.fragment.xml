@@ -9,6 +9,7 @@ xmlns:mvc="sap.ui.core.mvc"
 					core:require="{ handler: 'nfaform/ext/fragment/Attachments'}"
 					instantUpload="false"
 					uploadEnabled="true"
+					uploadButtonInvisible="true"
 					mode="None"
 					
 					showIcons="true"
@@ -33,12 +34,12 @@ xmlns:mvc="sap.ui.core.mvc"
 								path: 'mediaType',
 								formatter: 'handler.formatThumbnailUrl'
 							}"
-							enabledEdit="false"
 							openPressed="handler.onOpenPressed"
 							removePressed="handler.onRemovePressed"
 							enabledRemove="true"
 							selected="false"
 							visibleRemove="true"
+							visibleEdit="false"
 						>
 							<upload:attributes>
 								<ObjectAttribute
