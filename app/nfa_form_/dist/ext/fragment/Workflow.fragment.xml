@@ -1,0 +1,25 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:u="sap.ui.unified"
+    xmlns:rich="sap.ui.richtexteditor"
+    xmlns:commons="sap.suite.ui.commons"
+>
+    <!-- <Dialog id="_IDDialog" title="Approval History" class="sapUiResponsiveContentPadding" beforeOpen=".onBeforeOpen" afterClose=".onAfterClose" resizable="true" draggable="true"> -->
+        <!-- <content> -->
+        
+            <VBox id="box" width="100%">
+               <ScrollContainer id="_IDGenScrollContainer"
+            width="100%"
+            height="auto"
+            horizontal="true" 
+            vertical="false" 
+        >
+             <Table id="sampleTable" width="110vw">
+                   
+                </Table>
+                </ScrollContainer>
+            </VBox>
+        <!-- </content> -->
+    <!-- </Dialog> -->
+</core:FragmentDefinition>

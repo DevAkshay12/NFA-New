@@ -1,0 +1,1 @@
+{"version":3,"file":"Justification.js","names":["sap","ui","define","MessageToast","onPress","oEvent","show","live"],"sources":["Justification-dbg.js"],"mappings":"AAAAA,IAAIC,GAAGC,OAAO,CACV,sBACD,SAASC,GACR,aAEA,MAAO,CACHC,QAAS,SAASC,GACdF,EAAaG,KAAK,0BACtB,EACAC,KAAO,SAAUF,GAEb,QACJ,EAER","ignoreList":[]}

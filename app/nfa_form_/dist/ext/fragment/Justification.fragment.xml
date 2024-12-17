@@ -1,0 +1,8 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:macros="sap.fe.macros">
+	<VBox id="_IDGenVBox" core:require="{ handler: 'nfaform/ext/fragment/Justification'}">
+		
+	<TextArea id="textareafrag" width="100%" textDirection="LTR" placeholder="Enter a comment" liveChange="handler.live" height="175px"
+	maxLength="40" valueState="Success" 
+	></TextArea>
+	</VBox>
+</core:FragmentDefinition>

@@ -38,7 +38,7 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                 //             }
                 //         }
                 //     },
-                onBeforeSave: async function (oEvent) {
+                onAfterSave: async function (oEvent) {
                     debugger;
                     var textarea = this.getView().byId("nfaform::tab1ObjectPage--fe::CustomSubSection::Justification--textareafrag");
                     textarea.setEditable(false);
@@ -112,7 +112,6 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                                     
                                         // Open the MessagePopover
                                         oMessagePopover.openBy(textarea); // Opens relative to the textarea
-                                        return;
                                     }
                                     
                                     debugger
