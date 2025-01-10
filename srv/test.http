@@ -1,0 +1,1 @@
+GET http://localhost:42169/odata/v4/catalog/sendforapproval(data='{ "key": "Doc1007341724", "status": "Approval", "name":"rajendraakshay1@gmail.com" }')

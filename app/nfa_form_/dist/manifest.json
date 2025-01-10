@@ -186,16 +186,6 @@
                                             }
                                         }
                                     }
-                                },
-                                "footer": {
-                                    "actions": {
-                                        "justification": {
-                                            "press": "nfaform.ext.controller.Just.just",
-                                            "visible": true,
-                                            "enabled": true,
-                                            "text": "Justification needed"
-                                        }
-                                    }
                                 }
                             },
                             "navigation": {
