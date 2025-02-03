@@ -80,33 +80,33 @@ module.exports = cds.service.impl(async function () {
             }
         }));
     
-        // const postbpa = await axios.request('https://spa-api-gateway-bpi-us-prod.cfapps.us10.hana.ondemand.com/workflow/rest/v1/workflow-instances', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Authorization': 'Bearer ' + response1.data.access_token,
-        //         'Content-Type': 'application/json'
-        //     },
-        //     data: body
-        // });
         const postbpa = await axios.request('https://spa-api-gateway-bpi-us-prod.cfapps.us10.hana.ondemand.com/workflow/rest/v1/workflow-instances', {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Authorization': 'Bearer ' + response1.data.access_token,
                 'Content-Type': 'application/json'
             },
+            data: body
         });
+        // const postbpa = await axios.request('https://spa-api-gateway-bpi-us-prod.cfapps.us10.hana.ondemand.com/workflow/rest/v1/workflow-instances', {
+        //     method: 'GET',
+        //     headers: {
+        //         'Authorization': 'Bearer ' + response1.data.access_token,
+        //         'Content-Type': 'application/json'
+        //     },
+        // });
     
         console.log('Workflow Response:', postbpa.data);
         const filteredArray = postbpa.data.filter(item => item.subject === "nfaprocess");
         console.log(filteredArray);
         const wf_up = await UPDATE(tab1)
         .where({ PAN_Number: data.key})
-        .with({ Sap_workitem_id: filteredArray[0].id});
+        .with({ Sap_workitem_id: postbpa.data.id});
         console.log(wf_up);
 
        const wf = await UPDATE(PAN_WORKFLOW_HISTORY_APR)
         .where({ PAN_Number: data.key})
-        .with({ Employee_ID: filteredArray[0].id, Notification_Status: "1"});
+        .with({ Employee_ID: postbpa.data.id, Notification_Status: "1"});
         console.log(wf);
         
         

@@ -20,7 +20,7 @@ service CatalogService {
 }
 
 service PanApproval {
- entity PAN_Details_APR as projection on my.PAN_Details;
+ entity PAN_Details_APR as projection on my.PAN_Details where status = 'pending for Approval';
  entity PAN_WEB_EVENT_APR as projection on my.PAN_WEB_EVENT;
  entity PAN_TYPE_APR as projection on my.PAN_TYPE;
  entity PAN_vendor_data_APR as projection on my.PAN_vendor_data;
@@ -33,4 +33,6 @@ service PanApproval {
  entity PAN_Comments_APR as projection on my.PAN_Comments;
  entity vendorTaxDetails_APR as projection on my.vendorTaxDetails;
  entity approversKeys as projection on my.approversKeys;
+ function getdata(data:String) returns String;
+ function approve(data:String) returns String;
 }

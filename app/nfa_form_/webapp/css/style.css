@@ -16,3 +16,9 @@
 {
   visibility: hidden !important;
 }
+
+.customDialogWidth {
+  width: 80% !important; /* Adjust width as needed */
+  height: 50%;
+  max-width: 620px !important; /* Limit max width in pixels */
+}

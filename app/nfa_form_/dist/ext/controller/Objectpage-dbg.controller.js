@@ -135,8 +135,8 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                                             reject(true);
                                         }
                                         else {
-                                             var name = sap.ushell.Container.getUser().getEmail(); // Replace with actual user email
-                                        // var name = "rajendraakshay1@gmail.com" // Replace with actual user email
+                                            //  var name = sap.ushell.Container.getUser().getEmail(); // Replace with actual user email
+                                        var name = "rajendraakshay1@gmail.com" // Replace with actual user email
                                         console.log("Save action confirmed");
 
                                         var oFunction = oEvent.context.getModel().bindContext(`/${'sendforapproval'}(...)`);
@@ -323,8 +323,8 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
 
                     // Define the settings for the AJAX call
                     var settings = {
-                        // url: baseuri + "odata/v4/catalog/PAN_WORKFLOW_HISTORY_APR",  // URL for fetching the data
-                        url: "/odata/v4/catalog/PAN_WORKFLOW_HISTORY_APR",  // URL for fetching the data
+                        url: baseuri + "odata/v4/catalog/PAN_WORKFLOW_HISTORY_APR",  // URL for fetching the data
+                        // url: "/odata/v4/catalog/PAN_WORKFLOW_HISTORY_APR",  // URL for fetching the data
                         method: "GET",  // Use GET method to fetch data
                         headers: {
                             "Accept": "application/json"  // Expect JSON response
@@ -335,20 +335,45 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                     new Promise((resolve, reject) => {
                         $.ajax(settings)
                             .done(async (results, textStatus, request) => {
-                                // Create a JSON model and set the data
-                                var oModel = new sap.ui.model.json.JSONModel();
-                                url = location.href;
-                                regex = /PAN_Number='([^']+)'/;
-                                match = url.match(regex);
-                                panNumber = match[1];
+                                // Validate AJAX response
+                                console.log("AJAX Results:", results);
+                                
+                                if (!results.value || !Array.isArray(results.value)) {
+                                    console.error("Invalid AJAX response structure. Expected `results.value` to be an array.");
+                                    return reject("Invalid data structure");
+                                }
+                    
+                                // Extract and filter data
+                                const url = location.href;
+                                const regex = /PAN_Number='([^']+)'/;
+                                const match = url.match(regex);
+                                if (!match || !match[1]) {
+                                    console.error("PAN Number not found in URL.");
+                                    return reject("PAN Number extraction failed");
+                                }
+                    
+                                const panNumber = match[1];
                                 const filteredResults = results.value.filter(item => item.PAN_Number === panNumber);
-                                oModel.setData({ PAN_WORKFLOW_HISTORY_APR: filteredResults });  // Assuming `results` is an array
-                                // Set the model to the table
-                                workflow_table.setModel(oModel);  // Bind the model to the table
-                                console.log(results);
+                                console.log("Filtered Results:", filteredResults);
+                    
+                                if (filteredResults.length === 0) {
+                                    console.warn("No data found for the given PAN Number:", panNumber);
+                                }
+                    
+                                // Create JSON model and set data
+                                const oModel = new sap.ui.model.json.JSONModel();
+                                oModel.setData({ PAN_WORKFLOW_HISTORY_APR: filteredResults });
+                    
+                                // Set model to table
+                                workflow_table.setModel(oModel);
+                    
+                                // Check model data
+                                console.log("Model Data:", oModel.getData());
+                    
+                                // Bind items to the table
                                 await new Promise(resolve => setTimeout(resolve, 2000)); // 2-second delay
                                 workflow_table.bindItems({
-                                    path: "/PAN_WORKFLOW_HISTORY_APR",  // Path to the array in the model
+                                    path: "/PAN_WORKFLOW_HISTORY_APR",
                                     template: new sap.m.ColumnListItem({
                                         cells: [
                                             new sap.m.Text({ text: "{PAN_Number}" }),
@@ -359,13 +384,18 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                                         ]
                                     })
                                 });
-
+                    
+                                // Verify table model data
+                                console.log("Table Model Data:", workflow_table.getModel().oData);
+                    
                                 resolve(results);
                             })
                             .fail((err) => {
-                                reject(err);  // Handle error if the AJAX request fails
+                                console.error("AJAX request failed:", err);
+                                reject(err);
                             });
                     });
+                    
 
                     // Define the columns dynamically
                     var columns = [
