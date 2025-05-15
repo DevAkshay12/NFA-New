@@ -39,6 +39,8 @@ module.exports = cds.service.impl(async function () {
           const wf_up = await UPDATE(PAN_WORKFLOW_HISTORY_APR)
             .where({ idd: wf[i].idd, PAN_Number: data.key })
             .with({ Remarks: "pending for Approval" });
+
+          // const pan_det = await UPDATE(tab1).where({PAN_Number : data.key}).with({status : "pending for Approval"})
           console.log("Update result:", wf_up);
         } catch (error) {
           console.error("Error updating record:", error.message);
@@ -57,11 +59,11 @@ module.exports = cds.service.impl(async function () {
 
       //bpa trigger code 
       try {
-        const client = 'sb-403abd10-fd1a-4b84-845a-cad6024d1bba!b359670|xsuaa!b49390';
-        const secret = 'ecd33297-4a8c-49d6-9bc8-049bf88f657a$9rtv07ya5uOAc7L2HfFaKaC0zx39zzWCsd-V1i3apvQ=';
+        const client = 'sb-15e9982b-835c-40a7-af6e-d02bcaa83d45!b402488|xsuaa!b49390';
+        const secret = '17cc9d7b-629b-4b41-93a7-934e4a988ba7$8tNp0TFqU461gOTfPgNAk9_7Z_9MztuYlHc_L_oZUNg=';
         const auth1 = Buffer.from(client + ':' + secret, 'utf-8').toString('base64');
     
-        const response1 = await axios.request('https://aa7beafetrial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials', {
+        const response1 = await axios.request('https://6af89e24trial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials', {
             method: 'POST',
             headers: {
                 'Authorization': 'Basic ' + auth1
@@ -80,28 +82,28 @@ module.exports = cds.service.impl(async function () {
             }
         }));
     
-        const postbpa = await axios.request('https://spa-api-gateway-bpi-us-prod.cfapps.us10.hana.ondemand.com/workflow/rest/v1/workflow-instances', {
-            method: 'POST',
-            headers: {
-                'Authorization': 'Bearer ' + response1.data.access_token,
-                'Content-Type': 'application/json'
-            },
-            data: body
-        });
         // const postbpa = await axios.request('https://spa-api-gateway-bpi-us-prod.cfapps.us10.hana.ondemand.com/workflow/rest/v1/workflow-instances', {
-        //     method: 'GET',
+        //     method: 'POST',
         //     headers: {
         //         'Authorization': 'Bearer ' + response1.data.access_token,
         //         'Content-Type': 'application/json'
         //     },
+        //     data: body
         // });
+        const postbpa = await axios.request('https://spa-api-gateway-bpi-us-prod.cfapps.us10.hana.ondemand.com/workflow/rest/v1/workflow-instances', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + response1.data.access_token,
+                'Content-Type': 'application/json'
+            },
+        });
     
         console.log('Workflow Response:', postbpa.data);
         const filteredArray = postbpa.data.filter(item => item.subject === "nfaprocess");
         console.log(filteredArray);
         const wf_up = await UPDATE(tab1)
         .where({ PAN_Number: data.key})
-        .with({ Sap_workitem_id: postbpa.data.id});
+        .with({ Sap_workitem_id: filteredArray[0].id});
         console.log(wf_up);
 
        const wf = await UPDATE(PAN_WORKFLOW_HISTORY_APR)

@@ -1,1 +1,2 @@
-GET http://localhost:43833/odata/v4/catalog/sendforapproval(data='{ "key": "Doc1025528402", "status": "Approval", "name":"rajendraakshay1@gmail.com" }')
+GET http://localhost:43149/odata/v4/catalog/sendforapproval(data='{ "key": "Doc1025528402", "status": "Approval", "name":"rajendraakshay1@gmail.com" }')
+# GET http://localhost:4004/odata/v4/catalog/comment(data='{"type":"get","NFA_Number":"Doc1014144348"}')
