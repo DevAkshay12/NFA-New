@@ -23,7 +23,8 @@ sap.ui.define([
             var baseuri = this._view.getParent().getAppComponent().getManifestObject()._oBaseUri._string;
 
             var settings = {
-                url: baseuri + `odata/v4/catalog/PAN_Comments_APR`,
+                url: baseuri + `odata/v4/catalog/PAN_Comments`,
+                // url: "/odata/v4/catalog/PAN_Comments",
                 method: "GET",
                 headers: {
                     "Accept": "application/json"

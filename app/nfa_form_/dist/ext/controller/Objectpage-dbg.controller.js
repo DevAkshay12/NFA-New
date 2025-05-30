@@ -25,7 +25,10 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
             },
             editFlow: {
                 onBeforeSave: async function (oEvent) {
+                    
                     view = this;
+                    const that = this;
+                     that._sendForApproval = false;
                     const userActionPromise = new Promise(async (resolve, reject) => {
                         debugger;
 
@@ -139,17 +142,17 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                                         var name = "rajendraakshay1@gmail.com" // Replace with actual user email
                                         console.log("Save action confirmed");
 
-                                        var oFunction = oEvent.context.getModel().bindContext(`/${'sendforapproval'}(...)`);
-                                        var key = {
-                                            key: panNumber,
-                                            status: "Approval",
-                                            name: name
-                                        };
-                                        key = JSON.stringify(key);
-                                        oFunction.setParameter("data", key);
-                                        await oFunction.execute();
-                                        let oContext1 = oFunction.getBoundContext();
-                                        let result1 = oContext1.getObject();
+                                        // var oFunction = oEvent.context.getModel().bindContext(`/${'sendforapproval'}(...)`);
+                                        // var key = {
+                                        //     key: panNumber,
+                                        //     status: "Approval",
+                                        //     name: name
+                                        // };
+                                        // key = JSON.stringify(key);
+                                        // oFunction.setParameter("data", key);
+                                        // await oFunction.execute();
+                                        // let oContext1 = oFunction.getBoundContext();
+                                        // let result1 = oContext1.getObject();
                                         // result1 = JSON.parse(result1.value); // If necessary, uncomment to parse
 
                                         // resolve(true); // Resolve the promise once the "Approval" request is sent
@@ -157,13 +160,32 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                                             view.getView().getContent()[0].getHeaderTitle().mAggregations._actionsToolbar.getContent()[2].addStyleClass("edit");
                                         }
 
-                                       
+                                        that._sendForApproval = true;
+                                        sap.m.MessageToast.show("Sent for approval", {
+                                            duration: 3000,
+                                            width: "15em",
+                                            my: "center bottom",
+                                            at: "center bottom"
+                                        }); 
+
                                     }
 
 
                                     else {
                                         console.log("Save action cancelled");
-                                        resolve(true);
+                                        resolve(true); 
+                                        // if(textarea.getValue().length > 0)
+                                        // {
+                                            
+                                        // }
+                                        textarea.setEditable(false);
+                                        sap.m.MessageToast.show("cancelled", {
+                                            duration: 3000,
+                                            width: "15em",
+                                            my: "center bottom",
+                                            at: "center bottom"
+                                        }); 
+
                                          // Reject the promise if user cancels
                                     }
                                 }
@@ -175,6 +197,33 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
 
                 },
                 onAfterSave : async function (oEvent) {
+                    // var oFunction = oEvent.context.getModel().bindContext(`/${'sendforapproval'}(...)`);
+                    // var key = {
+                    //     key: panNumber,
+                    //     status: "Approval",
+                    //     name: name
+                    // };
+                    if (!this._sendForApproval) {
+                        console.log("Skipping sendforapproval - user chose not to send.");
+                        return;
+                    }
+                    debugger
+                    var name = "rajendraakshay1@gmail.com"
+                    const oFunction = this.getView().getModel().bindContext("/sendforapproval(...)");
+					const statusVal3 = JSON.stringify({
+                        key: panNumber,
+                        status: "Approval",
+                        name: name
+					});
+					
+
+
+					
+					// Execute the context binding
+                    oFunction.setParameter("data", statusVal3);
+					await oFunction.execute();
+
+
                     debugger
                     var textarea = this.getView().byId("nfaform::tab1ObjectPage--fe::CustomSubSection::Justification--textareafrag");
                     var comment = textarea.getValue();
@@ -182,8 +231,8 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                         console.log("Save action confirmed");
                         debugger
                         var cFunction = oEvent.context.getModel().bindContext(`/${'comment'}(...)`);
-                        var name = sap.ushell.Container.getUser().getEmail(); // Replace with actual user email
-                        // var name = "rajendraakshay1@gmail.com" // Replace with actual user email
+                        // var name = sap.ushell.Container.getUser().getEmail(); // Replace with actual user email
+                        var name = "rajendraakshay1@gmail.com" // Replace with actual user email
                         var comment1 = {
                             "type": "insert",
                             "NFA_Number": panNumber,
@@ -323,8 +372,8 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
 
                     // Define the settings for the AJAX call
                     var settings = {
-                        url: baseuri + "odata/v4/catalog/PAN_WORKFLOW_HISTORY_APR",  // URL for fetching the data
-                        // url: "/odata/v4/catalog/PAN_WORKFLOW_HISTORY_APR",  // URL for fetching the data
+                        url: baseuri + "odata/v4/catalog/WORKFLOW_HISTORY",  // URL for fetching the data
+                        // url: "/odata/v4/catalog/WORKFLOW_HISTORY",  // URL for fetching the data
                         method: "GET",  // Use GET method to fetch data
                         headers: {
                             "Accept": "application/json"  // Expect JSON response
@@ -371,7 +420,7 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                                 console.log("Model Data:", oModel.getData());
                     
                                 // Bind items to the table
-                                await new Promise(resolve => setTimeout(resolve, 2000)); // 2-second delay
+                                await new Promise(resolve => setTimeout(resolve, 1000)); // 2-second delay
                                 workflow_table.bindItems({
                                     path: "/PAN_WORKFLOW_HISTORY_APR",
                                     template: new sap.m.ColumnListItem({
@@ -379,7 +428,7 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                                             new sap.m.Text({ text: "{PAN_Number}" }),
                                             new sap.m.Text({ text: "{Employee_Name}" }),
                                             new sap.m.Text({ text: "{level}" }),
-                                            new sap.m.Text({ text: "{Notification_Status}" }),
+                                            new sap.m.Text({ text: "{Remarks}" }),
                                             new sap.m.Text({ text: "{Approved_by}" })
                                         ]
                                     })
@@ -402,7 +451,7 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                         { header: "PAN Number", path: "PAN_Number" },
                         { header: "Employee Name", path: "Employee_Name" },
                         { header: "Level", path: "level" },
-                        { header: "Status", path: "Notification_Status" },
+                        { header: "Status", path: "Remarks" },
                         { header: "Approved By", path: "Approved_by" }
                     ];
 

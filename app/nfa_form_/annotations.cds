@@ -597,7 +597,7 @@ annotate service.vendor_data with @(
     },
 );
 
-annotate service.PAN_Comments_APR with {
+annotate service.PAN_Comments with {
     Comments @UI.MultiLineText : true
 };
 

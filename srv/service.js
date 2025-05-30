@@ -3,17 +3,17 @@ const axios = require('axios');
 
 module.exports = cds.service.impl(async function () {
   // Access the entities defined in your CDS model
-  const { PAN_attachments_APR, PAN_WORKFLOW_HISTORY_APR, tab1, PAN_Comments_APR } = this.entities;
+  const { attachments, WORKFLOW_HISTORY, tab1, PAN_Comments } = this.entities;
 
   // Before a CREATE operation on PAN_attachments_APR
-  this.before('CREATE', 'PAN_attachments_APR', async req => {
+  this.before('CREATE', 'attachments', async req => {
     // Log the request data
     console.log('Create called');
     console.log(JSON.stringify(req.data));
     debugger
     // Check if an attachment with the same ID already exists
-    const existingAttachment = await SELECT.from(PAN_attachments_APR).where({ ID: req.data.ID });
-    req.data.url = `/odata/v4/catalog/PAN_attachments_APR(ID=${req.data.ID},PAN_Number='${req.data.PAN_Number}')/content`;
+    const existingAttachment = await SELECT.from(attachments).where({ ID: req.data.ID });
+    req.data.url = `/odata/v4/catalog/attachments(ID=${req.data.ID},PAN_Number='${req.data.PAN_Number}')/content`;
   });
   this.on('sendforapproval', async (req) => {
     debugger
@@ -21,7 +21,7 @@ module.exports = cds.service.impl(async function () {
     const data = JSON.parse(req.data.data);
     console.log(data);
     if (data.status == 'Approval') {
-      var wf = await SELECT.from(PAN_WORKFLOW_HISTORY_APR).where`PAN_Number=${data.key}`;
+      var wf = await SELECT.from(WORKFLOW_HISTORY).where`PAN_Number=${data.key}`;
       var tb1 = await SELECT.from(tab1).where`PAN_Number=${data.key}`;
       console.log(wf);
       let maxLevel = -Infinity;
@@ -36,9 +36,12 @@ module.exports = cds.service.impl(async function () {
             maxLevel = currentLevel;
           }
 
-          const wf_up = await UPDATE(PAN_WORKFLOW_HISTORY_APR)
-            .where({ idd: wf[i].idd, PAN_Number: data.key })
-            .with({ Remarks: "pending for Approval" });
+          // const wf_up = await UPDATE(WORKFLOW_HISTORY)
+          //   .where({ idd: wf[i].idd, PAN_Number: data.key })
+          //   .with({ Remarks: "pending for Approval" });
+
+            const wf_up = await UPDATE (WORKFLOW_HISTORY,{PAN_Number:`${ data.key}`,idd:`${wf[i].idd}`}) .with ({Remarks: "pending for Approval"})
+
 
           // const pan_det = await UPDATE(tab1).where({PAN_Number : data.key}).with({status : "pending for Approval"})
           console.log("Update result:", wf_up);
@@ -59,11 +62,11 @@ module.exports = cds.service.impl(async function () {
 
       //bpa trigger code 
       try {
-        const client = 'sb-15e9982b-835c-40a7-af6e-d02bcaa83d45!b402488|xsuaa!b49390';
-        const secret = '17cc9d7b-629b-4b41-93a7-934e4a988ba7$8tNp0TFqU461gOTfPgNAk9_7Z_9MztuYlHc_L_oZUNg=';
+        const client = 'sb-f5db712d-7e56-4659-8aa0-a43859ddd675!b449023|xsuaa!b49390';
+        const secret = '8dbe1dd1-2557-49e7-938d-3cb18bb0b753$bqbpGc9HXFf9XSFuSSXM9RH4V-FUh_J3_OL-tZ4uqUM=';
         const auth1 = Buffer.from(client + ':' + secret, 'utf-8').toString('base64');
     
-        const response1 = await axios.request('https://6af89e24trial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials', {
+        const response1 = await axios.request('https://d6a19604trial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials', {
             method: 'POST',
             headers: {
                 'Authorization': 'Basic ' + auth1
@@ -82,31 +85,37 @@ module.exports = cds.service.impl(async function () {
             }
         }));
     
-        // const postbpa = await axios.request('https://spa-api-gateway-bpi-us-prod.cfapps.us10.hana.ondemand.com/workflow/rest/v1/workflow-instances', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Authorization': 'Bearer ' + response1.data.access_token,
-        //         'Content-Type': 'application/json'
-        //     },
-        //     data: body
-        // });
         const postbpa = await axios.request('https://spa-api-gateway-bpi-us-prod.cfapps.us10.hana.ondemand.com/workflow/rest/v1/workflow-instances', {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Authorization': 'Bearer ' + response1.data.access_token,
                 'Content-Type': 'application/json'
             },
+            data: body
         });
+        // const postbpa = await axios.request('https://spa-api-gateway-bpi-us-prod.cfapps.us10.hana.ondemand.com/workflow/rest/v1/workflow-instances', {
+        //     method: 'GET',
+        //     headers: {
+        //         'Authorization': 'Bearer ' + response1.data.access_token,
+        //         'Content-Type': 'application/json'
+        //     },
+        // });
     
         console.log('Workflow Response:', postbpa.data);
-        const filteredArray = postbpa.data.filter(item => item.subject === "nfaprocess");
+        // const filteredArray = postbpa.data.filter(item => item.subject === "nfaprocess");
+        const workflowData = Array.isArray(postbpa.data) ? postbpa.data : [postbpa.data];
+
+// Now filter safely
+const filteredArray = workflowData.filter(item => 
+    item.definitionId && item.definitionId.endsWith('.nfaprocess')
+);
         console.log(filteredArray);
         const wf_up = await UPDATE(tab1)
         .where({ PAN_Number: data.key})
         .with({ Sap_workitem_id: filteredArray[0].id});
         console.log(wf_up);
 
-       const wf = await UPDATE(PAN_WORKFLOW_HISTORY_APR)
+       const wf = await UPDATE(WORKFLOW_HISTORY)
         .where({ PAN_Number: data.key})
         .with({ Employee_ID: postbpa.data.id, Notification_Status: "1"});
         console.log(wf);
@@ -123,18 +132,17 @@ module.exports = cds.service.impl(async function () {
   })
 
   this.on('comment', async (req) => {
-    debugger;
     var data = JSON.parse(req.data.data);
-    var query = await SELECT.from(PAN_Comments_APR).where`PAN_Number=${data.NFA_Number}`;
+    var query = await SELECT.from(PAN_Comments).where`PAN_Number=${data.NFA_Number}`;
     if (data.type == "insert") {
       if (query.length > 0) {
-        const wf_up = await UPDATE(PAN_Comments_APR)
+        const wf_up = await UPDATE(PAN_Comments)
           .where({ PAN_Number: data.NFA_Number })
           .with({ Comments: data.comment });
         return "updated"
       }
       else {
-        var query = await INSERT.into(PAN_Comments_APR).entries([{
+        var query = await INSERT.into(PAN_Comments).entries([{
           PAN_Number: data.NFA_Number,
           user: data.comment,
           Comments: data.comment,

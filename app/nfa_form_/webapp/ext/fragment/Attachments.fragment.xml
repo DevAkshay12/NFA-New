@@ -16,7 +16,7 @@ xmlns:mvc="sap.ui.core.mvc"
 					afterItemAdded="handler.onAfterItemAdded"
 					uploadCompleted="handler.onUploadCompleted"
 					items="{
-								path: '/PAN_attachments_APR',
+								path: '/attachments',
 								parameters: {
 									$orderby: 'createdAt desc'
 								},

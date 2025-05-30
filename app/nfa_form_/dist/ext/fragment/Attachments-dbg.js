@@ -33,8 +33,8 @@ sap.ui.define([
 		
 
 				var settings = {
-					url: baseuri + "odata/v4/catalog/PAN_attachments_APR",
-					// url: "/odata/v4/catalog/PAN_attachments_APR",
+					url: baseuri + "odata/v4/catalog/attachments",
+					// url: "/odata/v4/catalog/attachments",
 					method: "POST",
 					headers: {
 						"Content-type": "application/json"
@@ -56,8 +56,8 @@ sap.ui.define([
 			_createEntity(item)
 				.then((id) => {
 					 
-					var url = baseuri + `odata/v4/catalog/PAN_attachments_APR(ID=${id},PAN_Number='${panNumber}')/content`;
-					// var url = `/odata/v4/catalog/PAN_attachments_APR(ID=${id},PAN_Number='${panNumber}')/content`;
+					var url = baseuri + `odata/v4/catalog/attachments(ID=${id},PAN_Number='${panNumber}')/content`;
+					// var url = `/odata/v4/catalog/attachments(ID=${id},PAN_Number='${panNumber}')/content`;
 					debugger
 					item.setUploadUrl(url);
 					var oUploadSet = this.byId("uploadSet");
@@ -143,7 +143,7 @@ sap.ui.define([
 				};
 
 				var settings = {
-					url: "/odata/v4/catalog/PAN_attachments_APR",
+					url: "/odata/v4/catalog/attachments",
 					method: "POST",
 					headers: {
 						"Content-type": "application/json"
