@@ -3,7 +3,7 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
     var baseuri;
     var panNumber;
     var url;;
-    var that, regex,view, match;
+    var that, regex, view, match;
     // Regular expression to match the PAN_Number value
     regex = /PAN_Number='([^']+)'/;
     url = location.href;
@@ -25,10 +25,10 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
             },
             editFlow: {
                 onBeforeSave: async function (oEvent) {
-                    
+
                     view = this;
                     const that = this;
-                     that._sendForApproval = false;
+                    that._sendForApproval = false;
                     const userActionPromise = new Promise(async (resolve, reject) => {
                         debugger;
 
@@ -74,7 +74,7 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                                         //         }
                                         //     });
 
-                                            
+
                                         //     oMessagePopover.setModel(oMessageModel);
 
                                         //     // Open the MessagePopover
@@ -139,44 +139,40 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                                         }
                                         else {
                                             //  var name = sap.ushell.Container.getUser().getEmail(); // Replace with actual user email
-                                        var name = "rajendraakshay1@gmail.com" // Replace with actual user email
-                                        console.log("Save action confirmed");
+                                            var name = "rajendraakshay1@gmail.com" // Replace with actual user email
+                                            console.log("Save action confirmed");
 
-                                        // var oFunction = oEvent.context.getModel().bindContext(`/${'sendforapproval'}(...)`);
-                                        // var key = {
-                                        //     key: panNumber,
-                                        //     status: "Approval",
-                                        //     name: name
-                                        // };
-                                        // key = JSON.stringify(key);
-                                        // oFunction.setParameter("data", key);
-                                        // await oFunction.execute();
-                                        // let oContext1 = oFunction.getBoundContext();
-                                        // let result1 = oContext1.getObject();
-                                        // result1 = JSON.parse(result1.value); // If necessary, uncomment to parse
+                                            // var oFunction = oEvent.context.getModel().bindContext(`/${'sendforapproval'}(...)`);
+                                            // var key = {
+                                            //     key: panNumber,
+                                            //     status: "Approval",
+                                            //     name: name
+                                            // };
+                                            // key = JSON.stringify(key);
+                                            // oFunction.setParameter("data", key);
+                                            // await oFunction.execute();
+                                            // let oContext1 = oFunction.getBoundContext();
+                                            // let result1 = oContext1.getObject();
+                                            // result1 = JSON.parse(result1.value); // If necessary, uncomment to parse
 
-                                        // resolve(true); // Resolve the promise once the "Approval" request is sent
+                                            // resolve(true); // Resolve the promise once the "Approval" request is sent
                                             resolve(true);
                                             view.getView().getContent()[0].getHeaderTitle().mAggregations._actionsToolbar.getContent()[2].addStyleClass("edit");
                                         }
 
                                         that._sendForApproval = true;
-                                        sap.m.MessageToast.show("Sent for approval", {
-                                            duration: 3000,
-                                            width: "15em",
-                                            my: "center bottom",
-                                            at: "center bottom"
-                                        }); 
+
+
 
                                     }
 
 
                                     else {
                                         console.log("Save action cancelled");
-                                        resolve(true); 
+                                        resolve(true);
                                         // if(textarea.getValue().length > 0)
                                         // {
-                                            
+
                                         // }
                                         textarea.setEditable(false);
                                         sap.m.MessageToast.show("cancelled", {
@@ -184,9 +180,9 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                                             width: "15em",
                                             my: "center bottom",
                                             at: "center bottom"
-                                        }); 
+                                        });
 
-                                         // Reject the promise if user cancels
+                                        // Reject the promise if user cancels
                                     }
                                 }
                             }
@@ -196,7 +192,7 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                     await userActionPromise; // Wait for the user's response to the confirmation
 
                 },
-                onAfterSave : async function (oEvent) {
+                onAfterSave: async function (oEvent) {
                     // var oFunction = oEvent.context.getModel().bindContext(`/${'sendforapproval'}(...)`);
                     // var key = {
                     //     key: panNumber,
@@ -210,18 +206,18 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                     debugger
                     var name = "rajendraakshay1@gmail.com"
                     const oFunction = this.getView().getModel().bindContext("/sendforapproval(...)");
-					const statusVal3 = JSON.stringify({
+                    const statusVal3 = JSON.stringify({
                         key: panNumber,
                         status: "Approval",
                         name: name
-					});
-					
+                    });
 
 
-					
-					// Execute the context binding
+
+
+                    // Execute the context binding
                     oFunction.setParameter("data", statusVal3);
-					await oFunction.execute();
+                    await oFunction.execute();
 
 
                     debugger
@@ -247,9 +243,21 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                         let result1 = Context1.getObject();
                         textarea.setEditable(false);
                     }
+
+                    let oBusyDialog = new sap.m.BusyDialog({
+                        title: "Sending for Approval",
+                        text: "Please wait..."
+                    });
+
+                    oBusyDialog.open();
+
+                    // Automatically close after 2 seconds (optional)
+                    setTimeout(function () {
+                        oBusyDialog.close();
+                        window.history.go(-2);
+                    }, 2000);
                 },
-                onAfterDiscard : async function(oEvent)
-                {
+                onAfterDiscard: async function (oEvent) {
                     debugger
                     var textarea = this.getView().byId("nfaform::tab1ObjectPage--fe::CustomSubSection::Justification--textareafrag");
                     var attachments = this.getView().byId("nfaform::tab1ObjectPage--fe::CustomSubSection::Attachments--uploadSet");
@@ -257,15 +265,13 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                     textarea.setEditable(false);
                     attachments.setUploadButtonInvisible(true);
                     attachments.setUploadEnabled(false);
-                    if(attachments.getItems())
-                    {
-                        for(let a = 0;a < attachments.getItems().length;a++)
-                            {
-                                attachments.getItems()[a].setEnabledRemove(false)
-                                attachments.getItems()[a].setVisibleRemove(false);
-                            }
+                    if (attachments.getItems()) {
+                        for (let a = 0; a < attachments.getItems().length; a++) {
+                            attachments.getItems()[a].setEnabledRemove(false)
+                            attachments.getItems()[a].setVisibleRemove(false);
+                        }
                     }
-                    
+
                 },
 
 
@@ -295,7 +301,7 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                     //     // If the function has already been executed, return early to prevent re-execution
                     //     return;
                     // }
-                
+
                     // this._isExecuted = true;
                     var stat
                     that = this;
@@ -386,12 +392,12 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                             .done(async (results, textStatus, request) => {
                                 // Validate AJAX response
                                 console.log("AJAX Results:", results);
-                                
+
                                 if (!results.value || !Array.isArray(results.value)) {
                                     console.error("Invalid AJAX response structure. Expected `results.value` to be an array.");
                                     return reject("Invalid data structure");
                                 }
-                    
+
                                 // Extract and filter data
                                 const url = location.href;
                                 const regex = /PAN_Number='([^']+)'/;
@@ -400,25 +406,25 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                                     console.error("PAN Number not found in URL.");
                                     return reject("PAN Number extraction failed");
                                 }
-                    
+
                                 const panNumber = match[1];
                                 const filteredResults = results.value.filter(item => item.PAN_Number === panNumber);
                                 console.log("Filtered Results:", filteredResults);
-                    
+
                                 if (filteredResults.length === 0) {
                                     console.warn("No data found for the given PAN Number:", panNumber);
                                 }
-                    
+
                                 // Create JSON model and set data
                                 const oModel = new sap.ui.model.json.JSONModel();
                                 oModel.setData({ PAN_WORKFLOW_HISTORY_APR: filteredResults });
-                    
+
                                 // Set model to table
                                 workflow_table.setModel(oModel);
-                    
+
                                 // Check model data
                                 console.log("Model Data:", oModel.getData());
-                    
+
                                 // Bind items to the table
                                 await new Promise(resolve => setTimeout(resolve, 1000)); // 2-second delay
                                 workflow_table.bindItems({
@@ -433,10 +439,10 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                                         ]
                                     })
                                 });
-                    
+
                                 // Verify table model data
                                 console.log("Table Model Data:", workflow_table.getModel().oData);
-                    
+
                                 resolve(results);
                             })
                             .fail((err) => {
@@ -444,7 +450,7 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                                 reject(err);
                             });
                     });
-                    
+
 
                     // Define the columns dynamically
                     var columns = [
@@ -478,36 +484,36 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                         "NFA_Number": panNumber,
                     }
 
-                
-                            // Convert the comment to JSON
-                            comment = JSON.stringify(comment);
 
-                            // Set the parameter
-                            cFunction.setParameter("data", comment);
+                    // Convert the comment to JSON
+                    comment = JSON.stringify(comment);
 
-                            // Execute the function
-                            await cFunction.execute();
+                    // Set the parameter
+                    cFunction.setParameter("data", comment);
 
-                            // Get the context and parse the result
-                            let oContext1 = cFunction.getBoundContext();
-                            let result1 = oContext1.getObject();
-                            result1 = JSON.parse(result1.value);
-                            debugger
-                            // Log the result
-                            console.log("Execution Result:", result1);
-                            if (result1[0] && result1[0].Comments) {
-                                comment_data.setValue(result1[0].Comments);
-                                console.log("Comment data updated:", result1[0].Comments);
+                    // Execute the function
+                    await cFunction.execute();
 
-                            } else {
-                                comment_data.setValue(""); // Set to empty if no comments are found
-                                console.warn("No comments found. Setting to empty.");
+                    // Get the context and parse the result
+                    let oContext1 = cFunction.getBoundContext();
+                    let result1 = oContext1.getObject();
+                    result1 = JSON.parse(result1.value);
+                    debugger
+                    // Log the result
+                    console.log("Execution Result:", result1);
+                    if (result1[0] && result1[0].Comments) {
+                        comment_data.setValue(result1[0].Comments);
+                        console.log("Comment data updated:", result1[0].Comments);
 
-                            }
-                            return result1; // Return the result if needed
+                    } else {
+                        comment_data.setValue(""); // Set to empty if no comments are found
+                        console.warn("No comments found. Setting to empty.");
+
                     }
-
+                    return result1; // Return the result if needed
                 }
-            },
+
+            }
+        },
     });
 });

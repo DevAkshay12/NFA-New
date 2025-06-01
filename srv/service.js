@@ -40,7 +40,7 @@ module.exports = cds.service.impl(async function () {
           //   .where({ idd: wf[i].idd, PAN_Number: data.key })
           //   .with({ Remarks: "pending for Approval" });
 
-            const wf_up = await UPDATE (WORKFLOW_HISTORY,{PAN_Number:`${ data.key}`,idd:`${wf[i].idd}`}) .with ({Remarks: "pending for Approval"})
+          const wf_up = await UPDATE(WORKFLOW_HISTORY, { PAN_Number: `${data.key}`, idd: `${wf[i].idd}` }).with({ Remarks: "pending for Approval" })
 
 
           // const pan_det = await UPDATE(tab1).where({PAN_Number : data.key}).with({status : "pending for Approval"})
@@ -65,33 +65,33 @@ module.exports = cds.service.impl(async function () {
         const client = 'sb-f5db712d-7e56-4659-8aa0-a43859ddd675!b449023|xsuaa!b49390';
         const secret = '8dbe1dd1-2557-49e7-938d-3cb18bb0b753$bqbpGc9HXFf9XSFuSSXM9RH4V-FUh_J3_OL-tZ4uqUM=';
         const auth1 = Buffer.from(client + ':' + secret, 'utf-8').toString('base64');
-    
+
         const response1 = await axios.request('https://d6a19604trial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials', {
-            method: 'POST',
-            headers: {
-                'Authorization': 'Basic ' + auth1
-            }
+          method: 'POST',
+          headers: {
+            'Authorization': 'Basic ' + auth1
+          }
         });
-    
+
         console.log('Authentication Response:', response1.data);
-    
-        const body =JSON.parse(JSON.stringify( {
-            "definitionId": "us10.aa7beafetrial.nfa.nfaprocess",
-            "context": {
-                "count": maxLevel,
-                "nfanumber": data.key,
-                "email": data.name,
-                "init": 0
-            }
+
+        const body = JSON.parse(JSON.stringify({
+          "definitionId": "us10.aa7beafetrial.nfa.nfaprocess",
+          "context": {
+            "count": maxLevel,
+            "nfanumber": data.key,
+            "email": data.name,
+            "init": 0
+          }
         }));
-    
+
         const postbpa = await axios.request('https://spa-api-gateway-bpi-us-prod.cfapps.us10.hana.ondemand.com/workflow/rest/v1/workflow-instances', {
-            method: 'POST',
-            headers: {
-                'Authorization': 'Bearer ' + response1.data.access_token,
-                'Content-Type': 'application/json'
-            },
-            data: body
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + response1.data.access_token,
+            'Content-Type': 'application/json'
+          },
+          data: body
         });
         // const postbpa = await axios.request('https://spa-api-gateway-bpi-us-prod.cfapps.us10.hana.ondemand.com/workflow/rest/v1/workflow-instances', {
         //     method: 'GET',
@@ -100,30 +100,41 @@ module.exports = cds.service.impl(async function () {
         //         'Content-Type': 'application/json'
         //     },
         // });
-    
+
         console.log('Workflow Response:', postbpa.data);
         // const filteredArray = postbpa.data.filter(item => item.subject === "nfaprocess");
         const workflowData = Array.isArray(postbpa.data) ? postbpa.data : [postbpa.data];
 
-// Now filter safely
-const filteredArray = workflowData.filter(item => 
-    item.definitionId && item.definitionId.endsWith('.nfaprocess')
-);
+        // Now filter safely
+        const filteredArray = workflowData.filter(item =>
+          item.definitionId && item.definitionId.endsWith('.nfaprocess')
+        );
         console.log(filteredArray);
         const wf_up = await UPDATE(tab1)
-        .where({ PAN_Number: data.key})
-        .with({ Sap_workitem_id: filteredArray[0].id});
+          .where({ PAN_Number: data.key })
+          .with({ Sap_workitem_id: filteredArray[0].id });
         console.log(wf_up);
 
-       const wf = await UPDATE(WORKFLOW_HISTORY)
-        .where({ PAN_Number: data.key})
-        .with({ Employee_ID: postbpa.data.id, Notification_Status: "1"});
-        console.log(wf);
-        
-        
-    } catch (error) {
+        //  const wf = await UPDATE(WORKFLOW_HISTORY)
+        //   .where({ PAN_Number: data.key})
+        //   .with({ Employee_ID: postbpa.data.id, Notification_Status: "1"});
+        //   console.log(wf);
+
+        //updated 1 june 2025
+
+
+
+
+
+        //updated 1 june 2025
+
+
+
+
+
+      } catch (error) {
         console.error('Error occurred:', error.response ? error.response.data : error.message);
-    }
+      }
 
 
     }
