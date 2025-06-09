@@ -34,5 +34,7 @@ service PanApproval {
  entity vendorTaxDetails_APR as projection on my.vendorTaxDetails;
  entity approversKeys as projection on my.approversKeys;
  function getdata(data:String) returns String;
- function approve(data:String) returns String;
+ function approve(data:String,email:String) returns String;
+ function wf_data(panno:String,comment : String) returns String;
+ function reject(data:String,email:String) returns String;
 }
