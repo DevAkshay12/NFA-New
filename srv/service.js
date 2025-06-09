@@ -54,7 +54,7 @@ module.exports = cds.service.impl(async function () {
         try {
           const tb1_up = await UPDATE(tab1)
             .where({ PAN_Number: data.key })
-            .with({ status: "pending for Approval" });
+            .with({ status: "pending for Approval",submitted_date: new Date()});
         } catch (error) {
           console.error("Error updating record:", error.message);
         }
@@ -115,9 +115,9 @@ module.exports = cds.service.impl(async function () {
           .with({ Sap_workitem_id: filteredArray[0].id });
         console.log(wf_up);
 
-        //  const wf = await UPDATE(WORKFLOW_HISTORY)
-        //   .where({ PAN_Number: data.key})
-        //   .with({ Employee_ID: postbpa.data.id, Notification_Status: "1"});
+         const wf = await UPDATE(WORKFLOW_HISTORY)
+          .where({ PAN_Number: data.key})
+          .with({ Employee_ID: postbpa.data.id,Begin_DateAND_Time : new Date()})
         //   console.log(wf);
 
         //updated 1 june 2025

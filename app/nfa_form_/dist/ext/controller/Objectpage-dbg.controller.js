@@ -9,8 +9,12 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
     url = location.href;
     // Execute the regex on the URL
     match = url.match(regex);
-
-    if (match) {
+    
+    
+    var oBusyDialog = new sap.m.BusyDialog({
+        title: "Sending for Approval",
+        text: "Please wait..."
+    });    if (match) {
         panNumber = match[1]; // Extracted PAN Number
         console.log(panNumber); // Output: Doc1007339210
     } else {
@@ -51,6 +55,7 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                                 onClose: async function (oAction) {
                                     if (oAction === sap.m.MessageBox.Action.YES) {
                                         debugger;
+                                        oBusyDialog.open();
                                         // if (comment.length == 0) {
                                         //     const oMessageModel = new sap.ui.model.json.JSONModel([
                                         //         {
@@ -182,7 +187,7 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                                             at: "center bottom"
                                         });
 
-                                        // Reject the promise if user cancels
+                                        
                                     }
                                 }
                             }
@@ -193,6 +198,9 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
 
                 },
                 onAfterSave: async function (oEvent) {
+                   
+
+                  
                     // var oFunction = oEvent.context.getModel().bindContext(`/${'sendforapproval'}(...)`);
                     // var key = {
                     //     key: panNumber,
@@ -204,7 +212,8 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                         return;
                     }
                     debugger
-                    var name = "rajendraakshay1@gmail.com"
+                    var name = sap.ushell.Container.getUser().getEmail();
+                    // var name = "rajendraakshay1@gmail.com"
                     const oFunction = this.getView().getModel().bindContext("/sendforapproval(...)");
                     const statusVal3 = JSON.stringify({
                         key: panNumber,
@@ -227,8 +236,8 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                         console.log("Save action confirmed");
                         debugger
                         var cFunction = oEvent.context.getModel().bindContext(`/${'comment'}(...)`);
-                        // var name = sap.ushell.Container.getUser().getEmail(); // Replace with actual user email
-                        var name = "rajendraakshay1@gmail.com" // Replace with actual user email
+                        var name = sap.ushell.Container.getUser().getEmail(); // Replace with actual user email
+                        // var name = "rajendraakshay1@gmail.com" // Replace with actual user email
                         var comment1 = {
                             "type": "insert",
                             "NFA_Number": panNumber,
@@ -244,12 +253,7 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                         textarea.setEditable(false);
                     }
 
-                    let oBusyDialog = new sap.m.BusyDialog({
-                        title: "Sending for Approval",
-                        text: "Please wait..."
-                    });
-
-                    oBusyDialog.open();
+                  
 
                     // Automatically close after 2 seconds (optional)
                     setTimeout(function () {
