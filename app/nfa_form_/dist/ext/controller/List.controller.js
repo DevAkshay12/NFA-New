@@ -1,0 +1,2 @@
+sap.ui.define(["sap/ui/core/mvc/ControllerExtension"],function(e){"use strict";return e.extend("nfaform.ext.controller.List",{override:{onInit:function(){debugger;var e=sap.ui.getCore().byId("nfaform::tab1List--fe::FilterBar::tab1::FilterField::created_by");e.setVisible(false);debugger;var t=sap.ushell.Container.getUser().getEmail();var r=this.base.getExtensionAPI().getModel();var i={operator:"Contains",values:[t]};e.setConditions([i])}}})});
+//# sourceMappingURL=List.controller.js.map

@@ -17,8 +17,24 @@ module.exports = cds.service.impl(async function () {
   });
   this.on('sendforapproval', async (req) => {
     debugger
-    var wf_up;
     const data = JSON.parse(req.data.data);
+    //for clarification check
+    var clarify = await SELECT.from(tab1).where`PAN_Number=${data.key}`;
+    if(clarify[0].status == 'need for clarification')
+    {
+      const wf =  await UPDATE(tab1)
+      .where({ PAN_Number: data.key })
+      .with({ status: "pending for Approval"});
+       return "updated as pending for approval from need for clarification"
+    }
+
+    //////////////////
+
+
+
+
+    var wf_up;
+    
     console.log(data);
     if (data.status == 'Approval') {
       var wf = await SELECT.from(WORKFLOW_HISTORY).where`PAN_Number=${data.key}`;
@@ -26,6 +42,7 @@ module.exports = cds.service.impl(async function () {
       console.log(wf);
       let maxLevel = -Infinity;
       var currentLevel;
+      var appLevel=false;
       for (let i = 0; i < wf.length; i++) {
         try {
 
@@ -39,9 +56,10 @@ module.exports = cds.service.impl(async function () {
           // const wf_up = await UPDATE(WORKFLOW_HISTORY)
           //   .where({ idd: wf[i].idd, PAN_Number: data.key })
           //   .with({ Remarks: "pending for Approval" });
-
+          if(!appLevel && wf[i].Remarks!='Approved'){
           const wf_up = await UPDATE(WORKFLOW_HISTORY, { PAN_Number: `${data.key}`, idd: `${wf[i].idd}` }).with({ Remarks: "pending for Approval" })
-
+          appLevel=true;
+          }
 
           // const pan_det = await UPDATE(tab1).where({PAN_Number : data.key}).with({status : "pending for Approval"})
           console.log("Update result:", wf_up);
@@ -50,7 +68,7 @@ module.exports = cds.service.impl(async function () {
         }
       }
 
-      for (let i = 0; i < wf.length; i++) {
+      // for (let i = 0; i < wf.length; i++) {
         try {
           const tb1_up = await UPDATE(tab1)
             .where({ PAN_Number: data.key })
@@ -58,7 +76,7 @@ module.exports = cds.service.impl(async function () {
         } catch (error) {
           console.error("Error updating record:", error.message);
         }
-      }
+      // }
 
       //bpa trigger code 
       try {

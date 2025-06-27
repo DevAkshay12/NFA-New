@@ -27,7 +27,7 @@ modules:
     group: SERVICE_REPLACEMENTS
     properties:
       key: SharedDevKey
-      service: main_db2-db
+      service: mainDb2-db
   parameters:
     buildpack: nodejs_buildpack
 - name: NFA_Form-destination-content
@@ -128,7 +128,7 @@ resources:
 - name: cross-container-service-1
   type: org.cloudfoundry.existing-service
   parameters:
-    service-name: main_db2-db
+    service-name: mainDb2-db
   properties:
     the-service-name: ${service-name}
 parameters:

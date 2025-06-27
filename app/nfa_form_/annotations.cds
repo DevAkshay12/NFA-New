@@ -382,6 +382,9 @@ annotate service.tab1 with @(
             },
         ],
     },
+    UI.SelectionFields : [
+        created_by,
+    ],
 );
 
 annotate service.tab2 with @(
@@ -685,4 +688,8 @@ annotate service.PAN_PRICE_DETAILS with @(
         },
     ]
 );
+
+annotate service.tab1 with {
+    created_by @Common.Label : 'created_by'
+};
 

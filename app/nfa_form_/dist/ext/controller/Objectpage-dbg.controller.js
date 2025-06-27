@@ -439,7 +439,8 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                                             new sap.m.Text({ text: "{Employee_Name}" }),
                                             new sap.m.Text({ text: "{level}" }),
                                             new sap.m.Text({ text: "{Remarks}" }),
-                                            new sap.m.Text({ text: "{Approved_by}" })
+                                            new sap.m.Text({ text: "{Approved_by}" }),
+                                            new sap.m.Text({ text: "{Days_Taken}" })
                                         ]
                                     })
                                 });
@@ -462,7 +463,8 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
                         { header: "Employee Name", path: "Employee_Name" },
                         { header: "Level", path: "level" },
                         { header: "Status", path: "Remarks" },
-                        { header: "Approved By", path: "Approved_by" }
+                        { header: "Approved By", path: "Approved_by" },
+                        { header: "Days Taken", path: "Days_Taken" }
                     ];
 
                     // Clear existing columns in case of re-binding

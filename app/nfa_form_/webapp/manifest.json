@@ -135,7 +135,10 @@
               "controlConfiguration": {
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
-                    "type": "GridTable"
+                    "type": "GridTable",
+                    "personalization": {
+                      "filter": true
+                    }
                   }
                 }
               }
@@ -205,6 +208,16 @@
                       "text": "Comment History"
                     }
                   }
+                },
+                "tab1tovendor_data/@com.sap.vocabularies.UI.v1.LineItem#VendorResponseDetails": {
+                  "tableSettings": {
+                    "type": "GridTable"
+                  }
+                },
+                "tab1totab2/@com.sap.vocabularies.UI.v1.LineItem#EventHistory": {
+                  "tableSettings": {
+                    "type": "GridTable"
+                  }
                 }
               }
             }
@@ -228,6 +241,9 @@
         "sap.ui.controllerExtensions": {
           "sap.fe.templates.ObjectPage.ObjectPageController#nfaform::tab1ObjectPage": {
             "controllerName": "nfaform.ext.controller.Objectpage"
+          },
+          "sap.fe.templates.ListReport.ListReportController": {
+            "controllerName": "nfaform.ext.controller.List"
           }
         }
       }

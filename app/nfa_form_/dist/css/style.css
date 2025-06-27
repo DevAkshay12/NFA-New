@@ -1,24 +1,149 @@
 .workFlowTable {
   /* overflow: scroll; */
-  
+
 }
 
 .workFlowTable tr:hover {
-    background-color: #f1f1f1;
+  
 }
 
+
+
 .workFlowTable th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-    padding-right: 100px;
+  background: linear-gradient(to right, #eef0ff, #e2e6f8); /* lavender-indigo gradient */
+  color: #2e2a5c; /* deep indigo */
+  font-weight: 600;
+  font-family: "72", "Segoe UI", "Roboto", sans-serif;
+  font-size: 14px;
+  border-top: 1px solid black;
+  border-left: 1px solid black; /* muted indigo */
+  border-right: 1px solid black;
+  text-align: left;
+  text-transform: capitalize;
+  letter-spacing: 0.2px;
+  box-shadow: inset 0 -1px 0 black;
+  transition: all 0.3s ease-in-out;
 }
-.edit
-{
+
+.edit {
   visibility: hidden !important;
 }
 
 .customDialogWidth {
-  width: 80% !important; /* Adjust width as needed */
+  width: 80% !important;
+  /* Adjust width as needed */
   height: 50%;
-  max-width: 620px !important; /* Limit max width in pixels */
+  max-width: 620px !important;
+  /* Limit max width in pixels */
+}
+
+#nfaform\:\:tab1List--fe\:\:table\:\:tab1\:\:LineItem-toolbar {
+  background-color: #0a6ed1; /* SAP Fiori Horizon primary blue */
+  color: white; /* Optional: make text/icons readable */
+}
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtopd\:\:LineItem\:\:ItemDetails\:\:C\:\:Item_Code-innerColumn,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtopd\:\:LineItem\:\:ItemDetails\:\:C\:\:HSN_OR_SAC_Code-innerColumn,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtopd\:\:LineItem\:\:ItemDetails\:\:C\:\:Item_Short_Description-innerColumn,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtopd\:\:LineItem\:\:ItemDetails\:\:C\:\:UOM-innerColumn,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtoptd\:\:LineItem\:\:PaymentTermDetails\:\:C\:\:slNo-innerColumn,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtoptd\:\:LineItem\:\:PaymentTermDetails\:\:C\:\:Payment_methord-innerColumn,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtoptd\:\:LineItem\:\:PaymentTermDetails\:\:C\:\:Percentage-innerColumn,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtoptd\:\:LineItem\:\:PaymentTermDetails\:\:C\:\:Description-innerColumn,
+#nfaform\:\:tab1ObjectPage--fe\:\:table\:\:tab1tovendor_data\:\:LineItem\:\:VendorResponseDetails\:\:C\:\:Awarded_Vendor-innerColumn,
+#nfaform\:\:tab1ObjectPage--fe\:\:table\:\:tab1tovendor_data\:\:LineItem\:\:VendorResponseDetails\:\:C\:\:Vendor_Name-innerColumn,
+#nfaform\:\:tab1ObjectPage--fe\:\:table\:\:tab1tovendor_data\:\:LineItem\:\:VendorResponseDetails\:\:C\:\:Original_quote-innerColumn,
+#nfaform\:\:tab1ObjectPage--fe\:\:table\:\:tab1tovendor_data\:\:LineItem\:\:VendorResponseDetails\:\:C\:\:Final_Quote-innerColumn,
+#nfaform\:\:tab1ObjectPage--fe\:\:table\:\:tab1tovendor_data\:\:LineItem\:\:VendorResponseDetails\:\:C\:\:Vendor_Location-innerColumn,
+#nfaform\:\:tab1ObjectPage--fe\:\:table\:\:tab1tovendor_data\:\:LineItem\:\:VendorResponseDetails\:\:C\:\:Order_amount_OR_Split_order_amount-innerColumn,
+#nfaform\:\:tab1ObjectPage--fe\:\:table\:\:tab1tovendor_data\:\:LineItem\:\:VendorResponseDetails\:\:C\:\:Discount_Amount-innerColumn,
+#nfaform\:\:tab1ObjectPage--fe\:\:table\:\:tab1tovendor_data\:\:LineItem\:\:VendorResponseDetails\:\:C\:\:Discount_percentage-innerColumn,
+#nfaform\:\:tab1ObjectPage--fe\:\:table\:\:tab1tovendor_data\:\:LineItem\:\:VendorResponseDetails\:\:C\:\:Rank-innerColumn,
+#nfaform\:\:tab1ObjectPage--fe\:\:table\:\:tab1totab2\:\:LineItem\:\:EventHistory\:\:C\:\:eventNo-innerColumn,
+#nfaform\:\:tab1ObjectPage--fe\:\:table\:\:tab1totab2\:\:LineItem\:\:EventHistory\:\:C\:\:number-innerColumn,
+#nfaform\:\:tab1ObjectPage--fe\:\:table\:\:tab1totab2\:\:LineItem\:\:EventHistory\:\:C\:\:date-innerColumn,
+#nfaform\:\:tab1ObjectPage--fe\:\:table\:\:tab1totab2\:\:LineItem\:\:EventHistory\:\:C\:\:numberOfVendorsParticipated-innerColumn,
+#nfaform\:\:tab1ObjectPage--fe\:\:table\:\:tab1totab2\:\:LineItem\:\:EventHistory\:\:C\:\:l1AmountObtained-innerColumn,
+#nfaform\:\:tab1List--fe\:\:table\:\:tab1\:\:LineItem\:\:C\:\:status-innerColumn,
+#nfaform\:\:tab1List--fe\:\:table\:\:tab1\:\:LineItem\:\:C\:\:Plant_Code-innerColumn,
+#nfaform\:\:tab1List--fe\:\:table\:\:tab1\:\:LineItem\:\:C\:\:BUORPurchasing_Group-innerColumn,
+#nfaform\:\:tab1List--fe\:\:table\:\:tab1\:\:LineItem\:\:C\:\:PAN_Number-innerColumn {
+  background: linear-gradient(to right, #eef0ff, #e2e6f8); /* lavender-indigo gradient */
+  color: #2e2a5c; /* deep indigo */
+  font-weight: 600;
+  font-family: "72", "Segoe UI", "Roboto", sans-serif;
+  font-size: 14px;
+  border-top: 1px solid black;
+  border-left: 1px solid black; /* muted indigo */
+  border-right: 1px solid black;
+  text-align: left;
+  text-transform: capitalize;
+  letter-spacing: 0.2px;
+  box-shadow: inset 0 -1px 0 black;
+  transition: all 0.3s ease-in-out;
+}
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:FormContainer\:\:TermsandConditions,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:FormContainer\:\:VendorResponse,
+#nfaform\:\:tab1ObjectPage--fe\:\:FormContainer\:\:GeneralDetails1
+{
+  background: linear-gradient(to bottom right, 	#b7d3ef, #6993db); /* soft Fiori Horizon background */
+  border: 1px solid #d0e2f2;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:FormContainer\:\:TermsandConditions\:\:FormElement\:\:DataField\:\:Scope_and_Responsibilities,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:FormContainer\:\:TermsandConditions\:\:FormElement\:\:DataField\:\:Commercial_Terms,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:FormContainer\:\:TermsandConditions\:\:FormElement\:\:DataField\:\:Compliance_Terms,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:FormContainer\:\:TermsandConditions\:\:FormElement\:\:DataField\:\:Others,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:FormContainer\:\:VendorResponse\:\:FormElement\:\:DataField\:\:Proposed_Vendor_Name,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:FormContainer\:\:VendorResponse\:\:FormElement\:\:DataField\:\:Vendor_GST_Number,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:FormContainer\:\:VendorResponse\:\:FormElement\:\:DataField\:\:Commercial_Committee_who_cleared_the_proposal,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:FormContainer\:\:VendorResponse\:\:FormElement\:\:DataField\:\:Vendor_Final_Quotation_Amount,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:FormContainer\:\:VendorResponse\:\:FormElement\:\:DataField\:\:Supplier_Origin_State,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:FormContainer\:\:VendorResponse\:\:FormElement\:\:DataField\:\:Vendor_Contact_PersonDASH1,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:FormContainer\:\:VendorResponse\:\:FormElement\:\:DataField\:\:Incoterms,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:FormContainer\:\:VendorResponse\:\:FormElement\:\:DataField\:\:Vendor_Final_Quotation_Date,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:FormContainer\:\:VendorResponse\:\:FormElement\:\:DataField\:\:Destination_State_BKTShipDASHto_LocationBKT,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:FormContainer\:\:VendorResponse\:\:FormElement\:\:DataField\:\:Vendor_Contact_PersonDASH2,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:FormContainer\:\:VendorResponse\:\:FormElement\:\:DataField\:\:Order_Value_BKTIn_Bid_CurrencyBKT,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:FormContainer\:\:VendorResponse\:\:FormElement\:\:DataField\:\:Project_CurrencyORBase_Currency,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:FormContainer\:\:VendorResponse\:\:FormElement\:\:DataField\:\:Technical_Committee_who_cleared_the_proposal,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:FormContainer\:\:VendorResponse\:\:FormElement\:\:DataField\:\:Order_Value_BKTIn_Project_CurrencyBKT,
+#nfaform\:\:tab1_tab1tovendor_dataObjectPage--fe\:\:FormContainer\:\:VendorResponse\:\:FormElement\:\:DataField\:\:Order_CurrencyORBid_currency,
+#nfaform\:\:tab1ObjectPage--fe\:\:FormContainer\:\:GeneralDetails1\:\:FormElement\:\:DataField\:\:Subject_of_ProposalOROrder,
+#nfaform\:\:tab1ObjectPage--fe\:\:FormContainer\:\:GeneralDetails1\:\:FormElement\:\:DataField\:\:Order_CurrencyORBid_currency,
+#nfaform\:\:tab1ObjectPage--fe\:\:FormContainer\:\:GeneralDetails1\:\:FormElement\:\:DataField\:\:RFP_Number,
+#nfaform\:\:tab1ObjectPage--fe\:\:FormContainer\:\:GeneralDetails1\:\:FormElement\:\:DataField\:\:Plant_Code,
+#nfaform\:\:tab1ObjectPage--fe\:\:FormContainer\:\:GeneralDetails1\:\:FormElement\:\:DataField\:\:Order_Location_OR_Plant,
+#nfaform\:\:tab1ObjectPage--fe\:\:FormContainer\:\:GeneralDetails1\:\:FormElement\:\:DataField\:\:Savings_achieved_btw_initial_and_final_quote,
+#nfaform\:\:tab1ObjectPage--fe\:\:FormContainer\:\:GeneralDetails1\:\:FormElement\:\:DataField\:\:Time_Taken_for_FinalizationDASHIn_DAYS,
+#nfaform\:\:tab1ObjectPage--fe\:\:FormContainer\:\:GeneralDetails1\:\:FormElement\:\:DataField\:\:Project_Description,
+#nfaform\:\:tab1ObjectPage--fe\:\:FormContainer\:\:GeneralDetails1\:\:FormElement\:\:DataField\:\:Base_line_spend,
+#nfaform\:\:tab1ObjectPage--fe\:\:FormContainer\:\:GeneralDetails1\:\:FormElement\:\:DataField\:\:Savings_against_base_line_spend_of_RFP,
+#nfaform\:\:tab1ObjectPage--fe\:\:FormContainer\:\:GeneralDetails1\:\:FormElement\:\:DataField\:\:status,
+#nfaform\:\:tab1ObjectPage--fe\:\:FormContainer\:\:GeneralDetails1\:\:FormElement\:\:DataField\:\:PR_NumberBKTsBKT,
+#nfaform\:\:tab1ObjectPage--fe\:\:FormContainer\:\:GeneralDetails1\:\:FormElement\:\:DataField\:\:Project_CurrencyORBase_Currency,
+#nfaform\:\:tab1ObjectPage--fe\:\:FormContainer\:\:GeneralDetails1\:\:FormElement\:\:DataField\:\:Number_of_Vendors_Shortlisted_for_RFP,
+#nfaform\:\:tab1ObjectPage--fe\:\:FormContainer\:\:GeneralDetails1\:\:FormElement\:\:DataField\:\:number_of_vendors_invited,
+#nfaform\:\:tab1ObjectPage--fe\:\:FormContainer\:\:GeneralDetails1\:\:FormElement\:\:DataField\:\:RFP_Publish_Date,
+#nfaform\:\:tab1ObjectPage--fe\:\:FormContainer\:\:GeneralDetails1\:\:FormElement\:\:DataField\:\:Final_proposed_Value,
+#nfaform\:\:tab1ObjectPage--fe\:\:FormContainer\:\:GeneralDetails1\:\:FormElement\:\:DataField\:\:Split_OrderORNo_of_vendors,
+#nfaform\:\:tab1ObjectPage--fe\:\:FormContainer\:\:GeneralDetails1\:\:FormElement\:\:DataField\:\:BUORPurchasing_Group,
+#nfaform\:\:tab1ObjectPage--fe\:\:FormContainer\:\:GeneralDetails1\:\:FormElement\:\:DataField\:\:PAN_Number
+{
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 4px 5px;
+  padding-top: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a1a;
+  display: inline-block;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  cursor: default; /* Optional: gives feedback that hover is allowed */
+  margin-right: 12px;  /* Horizontal gap between boxes */
+  margin-bottom: 12px;
 }
